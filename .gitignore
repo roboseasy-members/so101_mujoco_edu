@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# 가상환경
+.venv/
+venv/
+env/
+
+# 실행 산출물
+outputs/
+*.log
+
+# 개인 IDE 설정
+.vscode/
+.idea/
