@@ -1,4 +1,4 @@
-"""시뮬 → 실기: MuJoCo 뷰어로 SO-101 구동.
+"""시뮬 → 실기: MuJoCo 뷰어로 SO-102 구동.
 
 MuJoCo 뷰어의 Control 슬라이더로 시뮬 로봇을 움직이면, 시뮬 관절값이
 실기 팔로워암으로 전송됩니다. 시작 시 시뮬 자세를 실기 현재 자세에
@@ -13,7 +13,7 @@ MuJoCo 뷰어의 Control 슬라이더로 시뮬 로봇을 움직이면, 시뮬 �
 
 Example:
 	python -m src.mujoco_sim.sim_to_robot \\
-		--port /dev/ttyACM0 --id my_follower
+		--port /dev/ttyACM0 --id so102_follower
 """
 
 import argparse
@@ -24,7 +24,7 @@ from typing import Final
 import mujoco
 import mujoco.viewer
 
-from lerobot.robots.so_follower import SO101Follower, SO101FollowerConfig
+from lerobot_robot_so102 import SO102Follower, SO102FollowerConfig
 
 from .sim_bridge import ALL_JOINTS, get_qpos_index, obs_to_qpos, \
 	qpos_to_action
@@ -32,13 +32,13 @@ from .sim_bridge import ALL_JOINTS, get_qpos_index, obs_to_qpos, \
 SEND_HZ: Final[float] = 15.0
 DEFAULT_MAX_STEP_DEG: Final[float] = 3.0
 DEFAULT_SCENE: Final[Path] = (
-	Path(__file__).resolve().parent / 'so101' / 'scene.xml')
+	Path(__file__).resolve().parent / 'so102' / 'scene.xml')
 
 
 def parse_args() -> argparse.Namespace:
 	"""CLI 인자를 파싱한다."""
 	parser = argparse.ArgumentParser(
-		description='MuJoCo 뷰어 슬라이더로 실기 SO-101을 구동한다.')
+		description='MuJoCo 뷰어 슬라이더로 실기 SO-102을 구동한다.')
 	parser.add_argument(
 		'--port', required=True,
 		help='팔로워암 시리얼 포트 (예: /dev/ttyACM0)')
@@ -46,7 +46,7 @@ def parse_args() -> argparse.Namespace:
 		'--id', required=True, help='캘리브레이션에 쓴 로봇 id')
 	parser.add_argument(
 		'--scene', default=str(DEFAULT_SCENE),
-		help='SO-101 scene.xml 경로 (기본: 레포 동봉 모델)')
+		help='SO-102 scene.xml 경로 (기본: 레포 동봉 모델)')
 	parser.add_argument(
 		'--max_step_deg', type=float, default=DEFAULT_MAX_STEP_DEG,
 		help='전송 1회당 관절 이동량 상한 (deg)')
@@ -56,7 +56,7 @@ def parse_args() -> argparse.Namespace:
 def sync_sim_to_robot_pose(
 	model: mujoco.MjModel,
 	data: mujoco.MjData,
-	robot: SO101Follower,
+	robot: SO102Follower,
 ) -> None:
 	"""시뮬 자세(qpos·ctrl)를 실기 현재 자세로 맞춘다.
 
@@ -81,13 +81,13 @@ def run_sim_to_robot(
 	Args:
 		port: 팔로워암 시리얼 포트.
 		robot_id: 캘리브레이션 파일과 연결된 로봇 id.
-		scene_path: SO-101 MJCF scene 파일 경로.
+		scene_path: SO-102 MJCF scene 파일 경로.
 		max_step_deg: 전송 1회당 관절 이동량 상한 (deg).
 	"""
 	model = mujoco.MjModel.from_xml_path(str(scene_path))
 	data = mujoco.MjData(model)
 
-	robot = SO101Follower(SO101FollowerConfig(
+	robot = SO102Follower(SO102FollowerConfig(
 		port=port, id=robot_id, max_relative_target=max_step_deg))
 	robot.connect()
 
