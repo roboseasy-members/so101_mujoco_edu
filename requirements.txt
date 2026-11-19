@@ -1,4 +1,6 @@
-# so101_mujoco_edu 의존성 (Python 3.12 이상 - lerobot 0.6.0 요구)
-# lerobot feetech extra: SO-101 팔로워암 Feetech 모터 통신 SDK
+# so102_mujoco_edu 의존성 (Python 3.12 이상 - lerobot 0.6.0 요구)
+# lerobot feetech extra: 팔로워암 Feetech(STS3215) 모터 통신 SDK
 lerobot[feetech]==0.6.0
-mujoco==3.12.0  # SO-101 시뮬레이션 뷰어·디지털 트윈
+mujoco==3.12.0  # SO-102 시뮬레이션 뷰어·디지털 트윈
+# SO-102(7축) lerobot 플러그인: so102_follower / so102_leader 타입 제공
+lerobot_robot_so102 @ git+https://github.com/roboseasy/so-102.git

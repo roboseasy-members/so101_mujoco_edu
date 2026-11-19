@@ -1,6 +1,6 @@
-"""실기 → 시뮬: SO-101 디지털 트윈.
+"""실기 → 시뮬: SO-102 디지털 트윈.
 
-팔로워암의 관절값을 읽어 MuJoCo 뷰어의 SO-101 모델에 30Hz로
+팔로워암의 관절값을 읽어 MuJoCo 뷰어의 SO-102 모델에 30Hz로
 미러링합니다. 연결 직후 토크를 해제하므로 손으로 실기 팔을 움직이면
 화면 속 로봇이 따라옵니다.
 
@@ -9,7 +9,7 @@
 
 Example:
 	python -m src.mujoco_sim.digital_twin \\
-		--port /dev/ttyACM0 --id my_follower
+		--port /dev/ttyACM0 --id so102_follower
 """
 
 import argparse
@@ -20,19 +20,19 @@ from typing import Final
 import mujoco
 import mujoco.viewer
 
-from lerobot.robots.so_follower import SO101Follower, SO101FollowerConfig
+from lerobot_robot_so102 import SO102Follower, SO102FollowerConfig
 
 from .sim_bridge import obs_to_qpos
 
 LOOP_HZ: Final[float] = 30.0
 DEFAULT_SCENE: Final[Path] = (
-	Path(__file__).resolve().parent / 'so101' / 'scene.xml')
+	Path(__file__).resolve().parent / 'so102' / 'scene.xml')
 
 
 def parse_args() -> argparse.Namespace:
 	"""CLI 인자를 파싱한다."""
 	parser = argparse.ArgumentParser(
-		description='실기 SO-101 관절값을 MuJoCo 뷰어에 미러링한다.')
+		description='실기 SO-102 관절값을 MuJoCo 뷰어에 미러링한다.')
 	parser.add_argument(
 		'--port', required=True,
 		help='팔로워암 시리얼 포트 (예: /dev/ttyACM0)')
@@ -40,7 +40,7 @@ def parse_args() -> argparse.Namespace:
 		'--id', required=True, help='캘리브레이션에 쓴 로봇 id')
 	parser.add_argument(
 		'--scene', default=str(DEFAULT_SCENE),
-		help='SO-101 scene.xml 경로 (기본: 레포 동봉 모델)')
+		help='SO-102 scene.xml 경로 (기본: 레포 동봉 모델)')
 	return parser.parse_args()
 
 
@@ -50,12 +50,12 @@ def run_twin(port: str, robot_id: str, scene_path: Path) -> None:
 	Args:
 		port: 팔로워암 시리얼 포트.
 		robot_id: 캘리브레이션 파일과 연결된 로봇 id.
-		scene_path: SO-101 MJCF scene 파일 경로.
+		scene_path: SO-102 MJCF scene 파일 경로.
 	"""
 	model = mujoco.MjModel.from_xml_path(str(scene_path))
 	data = mujoco.MjData(model)
 
-	robot = SO101Follower(SO101FollowerConfig(port=port, id=robot_id))
+	robot = SO102Follower(SO102FollowerConfig(port=port, id=robot_id))
 	robot.connect()
 	robot.bus.disable_torque()  # 손으로 움직일 수 있게 토크 해제
 

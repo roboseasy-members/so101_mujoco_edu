@@ -1,0 +1,115 @@
+<!-- tools/build_so102_mjcf.py 가 so-102 URDF로부터 생성. 직접 수정하지 말고 스크립트를 고쳐 다시 생성하세요. -->
+<mujoco model="so102">
+  <compiler angle="radian" meshdir="assets" autolimits="true" />
+  <default>
+    <default class="so102">
+      <default class="visual">
+        <geom type="mesh" contype="0" conaffinity="0" group="2" />
+      </default>
+      <default class="collision">
+        <geom type="mesh" group="3" />
+      </default>
+    </default>
+    <default class="sts3215">
+      <joint damping="0.60" frictionloss="0.052" armature="0.028" />
+      <position kp="998.22" kv="2.731" forcerange="-3.35 3.35" />
+    </default>
+  </default>
+  <asset>
+    <mesh name="base_so101" file="base_so101.stl" />
+    <mesh name="base_motor_holder_so101" file="base_motor_holder_so101.stl" />
+    <mesh name="0_sts3215" file="0_sts3215.stl" />
+    <mesh name="rotation_pitch_so101" file="rotation_pitch_so101.stl" />
+    <mesh name="motor_holder_so101_base" file="motor_holder_so101_base.stl" />
+    <mesh name="upper_arm_so101" file="upper_arm_so101.stl" />
+    <mesh name="6_under_arm_ver3" file="6_under_arm_ver3.stl" />
+    <mesh name="motor_holder_so101_wrist" file="motor_holder_so101_wrist.stl" />
+    <mesh name="7dof_1_ver8_dumy" file="7dof_1_ver8_dumy.stl" />
+    <mesh name="7dof_2_ver8_dumy" file="7dof_2_ver8_dumy.stl" />
+    <mesh name="wrist_roll_follower_so101" file="wrist_roll_follower_so101.stl" />
+    <mesh name="moving_jaw_so101" file="moving_jaw_so101.stl" />
+    <material name="part" rgba="1 0.82 0.12 1" />
+    <material name="motor" rgba="0.1 0.1 0.1 1" />
+  </asset>
+  <worldbody>
+    <body name="base_link" childclass="so102">
+      <inertial pos="-0.0235535 -2.8491e-05 0.0341959" quat="0.428301 0.544769 0.566714 0.445667" mass="0.139292" diaginertia="0.000122912 0.000119557 0.000114282" />
+      <geom pos="-0.0452 6.25484e-09 0" quat="0.5 0.5 0.5 0.5" mesh="base_so101" class="visual" material="part" />
+      <geom pos="-0.0452 6.25484e-09 0" quat="0.5 0.5 0.5 0.5" mesh="base_so101" class="collision" />
+      <geom pos="-0.0452 6.25483e-09 -0.0001" quat="0.5 0.5 0.5 0.5" mesh="base_motor_holder_so101" class="visual" material="part" />
+      <geom pos="-0.0452 6.25483e-09 -0.0001" quat="0.5 0.5 0.5 0.5" mesh="base_motor_holder_so101" class="collision" />
+      <geom pos="-0.0125 6.2516e-09 0.0461" quat="1 0 0 2.21305e-10" mesh="0_sts3215" class="visual" material="motor" />
+      <geom pos="-0.0125 6.2516e-09 0.0461" quat="1 0 0 2.21305e-10" mesh="0_sts3215" class="collision" />
+      <body name="shoulder_link" pos="0 0 0.0648">
+        <inertial pos="0.0309635 1.75909e-05 0.0211648" quat="0.999652 -0.00131511 0.0122468 -0.0233291" mass="0.102259" diaginertia="9.76598e-05 9.69727e-05 2.35772e-05" />
+        <joint name="shoulder_pan" range="-1.91986 1.91986" axis="0 0 -1" class="sts3215" />
+        <geom pos="-0.012 6.25185e-09 -0.0464" quat="1.26918e-09 1.26918e-09 -0.707107 -0.707107" mesh="rotation_pitch_so101" class="visual" material="part" />
+        <geom pos="-0.012 6.25185e-09 -0.0464" quat="1.26918e-09 1.26918e-09 -0.707107 -0.707107" mesh="rotation_pitch_so101" class="collision" />
+        <geom pos="0.0678 6.28717e-09 -0.0158499" quat="0.5 0.5 0.5 -0.5" mesh="motor_holder_so101_base" class="visual" material="part" />
+        <geom pos="0.0678 6.28717e-09 -0.0158499" quat="0.5 0.5 0.5 -0.5" mesh="motor_holder_so101_base" class="collision" />
+        <geom pos="0.0306 0.000400006 0.0417" quat="0.5 0.5 -0.5 0.5" mesh="0_sts3215" class="visual" material="motor" />
+        <geom pos="0.0306 0.000400006 0.0417" quat="0.5 0.5 -0.5 0.5" mesh="0_sts3215" class="collision" />
+        <body name="upper_arm_link" pos="0.0306 0.016 0.0542" quat="0.707107 0 0.707107 0">
+          <inertial pos="-0.0839047 -0.0159114 0.00659734" quat="-0.00193601 0.76025 -0.00158329 0.649626" mass="0.122563" diaginertia="0.000199416 0.000184127 4.73711e-05" />
+          <joint name="shoulder_lift" range="-1.74533 1.74533" axis="0 1 0" class="sts3215" />
+          <geom pos="-0.065085 -0.0161 -0.012" quat="0.707107 0.707107 1.56488e-10 1.56488e-10" mesh="upper_arm_so101" class="visual" material="part" />
+          <geom pos="-0.065085 -0.0161 -0.012" quat="0.707107 0.707107 1.56488e-10 1.56488e-10" mesh="upper_arm_so101" class="collision" />
+          <geom pos="-0.11257 -0.01555 0.0155" quat="0.5 0.5 -0.5 0.5" mesh="0_sts3215" class="visual" material="motor" />
+          <geom pos="-0.11257 -0.01555 0.0155" quat="0.5 0.5 -0.5 0.5" mesh="0_sts3215" class="collision" />
+          <body name="lower_arm_link" pos="-0.11257 5e-05 0.028" quat="0.707107 0 -0.707107 0">
+            <inertial pos="0.0908281 -0.0160617 0.00261145" quat="-0.0033791 0.687942 0.00410132 0.725746" mass="0.116177" diaginertia="0.000203917 0.000184175 3.35879e-05" />
+            <joint name="elbow_flex" range="-1.69 1.69" axis="0 1 0" class="sts3215" />
+            <geom pos="0.0648499 -0.0161 -0.0319895" quat="1.26918e-09 -1.26918e-09 0.707107 -0.707107" mesh="6_under_arm_ver3" class="visual" material="part" />
+            <geom pos="0.0648499 -0.0161 -0.0319895" quat="1.26918e-09 -1.26918e-09 0.707107 -0.707107" mesh="6_under_arm_ver3" class="collision" />
+            <geom pos="0.0648499 -0.0161 -0.0319895" quat="1.26918e-09 -1.26918e-09 0.707107 -0.707107" mesh="motor_holder_so101_wrist" class="visual" material="part" />
+            <geom pos="0.0648499 -0.0161 -0.0319895" quat="1.26918e-09 -1.26918e-09 0.707107 -0.707107" mesh="motor_holder_so101_wrist" class="collision" />
+            <geom pos="0.1224 -0.0156 0.00521047" quat="0.707107 0.707107 1.56488e-10 1.56488e-10" mesh="0_sts3215" class="visual" material="motor" />
+            <geom pos="0.1224 -0.0156 0.00521047" quat="0.707107 0.707107 1.56488e-10 1.56488e-10" mesh="0_sts3215" class="collision" />
+            <body name="wrist_flex_link" pos="0.1349 -4.52891e-10 0.00521046">
+              <inertial pos="0.0313315 -0.016336 0.000197151" quat="0.0264154 0.707362 -0.0337258 0.705553" mass="0.075818" diaginertia="3.1107e-05 2.86762e-05 1.77597e-05" />
+              <joint name="wrist_flex" range="-1.43117 1.15192" axis="0 1 0" class="sts3215" />
+              <geom pos="-0.404324 -0.11636 -0.00107542" quat="0.707107 1.56488e-10 -0.707107 1.56488e-10" mesh="7dof_1_ver8_dumy" class="visual" material="part" />
+              <geom pos="-0.404324 -0.11636 -0.00107542" quat="0.707107 1.56488e-10 -0.707107 1.56488e-10" mesh="7dof_1_ver8_dumy" class="collision" />
+              <geom pos="0.0379738 -0.0166 6.25715e-09" quat="1 0 0 2.21298e-10" mesh="0_sts3215" class="visual" material="motor" />
+              <geom pos="0.0379738 -0.0166 6.25715e-09" quat="1 0 0 2.21298e-10" mesh="0_sts3215" class="collision" />
+              <body name="wrist_yaw_link" pos="0.0504738 -0.0166 0.0187">
+                <inertial pos="0.0356074 0.00673314 -0.0179028" quat="0.541541 0.461065 -0.530826 0.460842" mass="0.087889" diaginertia="3.99624e-05 3.41802e-05 2.39579e-05" />
+                <joint name="wrist_yaw" range="-1.46608 1.43117" class="sts3215" />
+                <geom pos="-0.404324 -0.00107542 0.08206" quat="0.5 -0.5 -0.5 0.5" mesh="7dof_2_ver8_dumy" class="visual" material="part" />
+                <geom pos="-0.404324 -0.00107542 0.08206" quat="0.5 -0.5 -0.5 0.5" mesh="7dof_2_ver8_dumy" class="collision" />
+                <geom pos="0.0374697 0.013 -0.0184" quat="0.5 -0.5 0.5 -0.5" mesh="0_sts3215" class="visual" material="motor" />
+                <geom pos="0.0374697 0.013 -0.0184" quat="0.5 -0.5 0.5 -0.5" mesh="0_sts3215" class="collision" />
+                <body name="gripper_link" pos="0.0561697 0.000500007 -0.0184" quat="0.707107 -0.707107 0 0">
+                  <inertial pos="0.0253789 0.000626571 0.000184403" quat="0.619628 0.333847 -0.617585 0.350993" mass="0.0876" diaginertia="4.59119e-05 3.9511e-05 2.54927e-05" />
+                  <joint name="wrist_roll" range="-2.74383 2.84122" axis="-1 0 0" class="sts3215" />
+                  <geom pos="-0.000949706 -9.68801e-10 -0.000218221" quat="0.5 -0.5 0.5 -0.5" mesh="wrist_roll_follower_so101" class="visual" material="part" />
+                  <geom pos="-0.000949706 -9.68801e-10 -0.000218221" quat="0.5 -0.5 0.5 -0.5" mesh="wrist_roll_follower_so101" class="collision" />
+                  <geom pos="0.023375 -0.0077 -6.25719e-09" quat="0.707107 0 0 -0.707107" mesh="0_sts3215" class="visual" material="motor" />
+                  <geom pos="0.023375 -0.0077 -6.25719e-09" quat="0.707107 0 0 -0.707107" mesh="0_sts3215" class="collision" />
+                  <body name="jaw_link" pos="0.023375 -0.0202 0.0187">
+                    <inertial pos="0.0299397 0.00154114 -0.0192735" quat="0.490065 0.475211 0.508051 0.525257" mass="0.012" diaginertia="6.60334e-06 5.2577e-06 1.86442e-06" />
+                    <joint name="gripper" range="-0.174533 1.74533" axis="0 0 -1" class="sts3215" />
+                    <geom pos="6.25713e-09 -9.68431e-10 -0.0189" quat="1.26918e-09 0.707107 -0.707107 -1.26918e-09" mesh="moving_jaw_so101" class="visual" material="part" />
+                    <geom pos="6.25713e-09 -9.68431e-10 -0.0189" quat="1.26918e-09 0.707107 -0.707107 -1.26918e-09" mesh="moving_jaw_so101" class="collision" />
+                  </body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  <contact>
+    <exclude body1="base_link" body2="shoulder_link" />
+  </contact>
+  <actuator>
+    <position class="sts3215" name="shoulder_pan" joint="shoulder_pan" ctrlrange="-1.91986 1.91986" />
+    <position class="sts3215" name="shoulder_lift" joint="shoulder_lift" ctrlrange="-1.74533 1.74533" />
+    <position class="sts3215" name="elbow_flex" joint="elbow_flex" ctrlrange="-1.69 1.69" />
+    <position class="sts3215" name="wrist_flex" joint="wrist_flex" ctrlrange="-1.43117 1.15192" />
+    <position class="sts3215" name="wrist_yaw" joint="wrist_yaw" ctrlrange="-1.46608 1.43117" />
+    <position class="sts3215" name="wrist_roll" joint="wrist_roll" ctrlrange="-2.74383 2.84122" />
+    <position class="sts3215" name="gripper" joint="gripper" ctrlrange="-0.174533 1.74533" />
+  </actuator>
+</mujoco>
